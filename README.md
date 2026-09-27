@@ -56,7 +56,7 @@ src/
 # store-front
 
 ## Android app (Capacitor)
-The app lives in `frontend/android` and talks to `https://storeapi.postmcp.com/api`
+The app lives in `frontend/android` and talks to `https://storeapi.postmcpai.com/api`
 (set in `frontend/.env.android`). Needs JDK 21 and the Android SDK.
 
 ```bash
