@@ -1,0 +1,8 @@
+{
+  "appId": "com.postmcp.stockbook",
+  "appName": "Stockbook",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#14213D"
+  }
+}

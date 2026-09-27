@@ -44,7 +44,11 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((o) => o.trim().replace(/\/$/, ''))
     .filter(Boolean);
-app.use(cors({ origin: (origin, cb) => cb(null, !origin || allowedOrigins.includes(origin)) }));
+app.use(cors({
+    origin: (origin, cb) => cb(null, !origin || allowedOrigins.includes(origin)),
+    /* Report downloads read their filename from this header. */
+    exposedHeaders: ['Content-Disposition'],
+}));
 
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
@@ -73,6 +77,12 @@ app.use('/api/settings', apiLimiter, settingRoutes);
 
 /* Stored under random names; nosniff (from helmet) stops a browser treating
    an upload as anything other than its declared type. */
+/* The Android app (origin https://localhost) shows these as <img>, which
+   helmet's same-site resource policy would otherwise block. */
+app.use('/uploads', (req, res, next) => {
+    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
 app.use('/uploads', express.static(UPLOAD_ROOT, { maxAge: '7d', index: false, dotfiles: 'deny' }));
 
 app.use('/api', notFound);
