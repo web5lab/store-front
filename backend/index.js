@@ -38,16 +38,8 @@ app.disable('x-powered-by');
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'same-site' } }));
 app.use(compression());
 
-/* An allowlist rather than a wildcard. In development the Vite proxy makes
-   every call same-origin, so this only matters for a separately hosted UI. */
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
-    .split(',')
-    .map((o) => o.trim().replace(/\/$/, ''))
-    .filter(Boolean);
 app.use(cors({
-    origin: (origin, cb) => cb(null, !origin || allowedOrigins.includes(origin)),
-    /* Report downloads read their filename from this header. */
-    exposedHeaders: ['Content-Disposition'],
+    origin: '*',
 }));
 
 app.use(express.json({ limit: '1mb' }));
