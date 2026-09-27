@@ -54,3 +54,16 @@ src/
   numbers (SAL-000001), shop details on printed bills.
 - **Uploads** are checked by extension, MIME type and file signature.
 # store-front
+
+## Android app (Capacitor)
+The app lives in `frontend/android` and talks to `https://storeapi.postmcp.com/api`
+(set in `frontend/.env.android`). Needs JDK 21 and the Android SDK.
+
+```bash
+cd frontend
+npm run android:apk      # web build → cap sync → android/app/build/outputs/apk/debug/app-debug.apk
+npm run android:open     # open in Android Studio
+```
+
+The API must allow the app's origin: add `https://localhost` to `ALLOWED_ORIGINS`
+in the server's `.env`.
